@@ -1,0 +1,5 @@
+#+title: Readme
+#+author: Jesse Jaramillo
+
+* Dotfiles
+This repository is used as a centralized location for all of the configuration files that I use on a daily basis
