@@ -32,9 +32,13 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+(set-frame-parameter nil 'internal-border-width 10)
+
+;; (add-to-list 'default-frame-alist '(alpha-background . 95))
+
 (setq doom-theme 'doom-palenight
       doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16 :height 1.0 :antialias "natural")
-      doom-variable-pitch-font (font-spec :family "Segoe Ui" :size 16 :height 1.0 :antialias "natural")
+      doom-variable-pitch-font (font-spec :family "Segoe UI" :size 16 :height 1.2 :antialias "natural")
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 24 :antialias "natural"))
 
 (custom-set-faces!
@@ -120,27 +124,33 @@
 
 
 (map! :desc "Show Docker Images"
-      :leader "t i" #'docker-images)
+      :leader "d i" #'docker-images)
 
 
 ;; Modeline
 (require 'all-the-icons)
-(setq doom-modeline-icon t)
+(setq all-the-icons-scale-factor 1.1)
+(setq doom-modeline-icon (display-graphic-p))
+(setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-major-mode-color-icon t)
 (setq doom-modeline-buffer-state-icon t)
+(setq doom-modeline-buffer-modification-icon t)
 (setq doom-modeline-modal-icon t)
+(setq doom-modeline-time-icon t)
 (setq doom-modeline-env-version t)
 (setq doom-modeline-lsp t)
-(setq doom-modeline-height 25)
-(setq doom-modeline-bar-width 4)
+(setq doom-modeline-height 35)
+(setq doom-modeline-bar-width 10)
+(setq doom-modeline-github t)
 
 (custom-set-faces!
    '(mode-line :family "MesloLGL Nerd Font Mono" :height 1.0 :antialias "natural")
    '(mode-line-inactive :family "MesloLGL Nerd Font Mono" :height 1.0 :antialias "natural"))
 
 ;;  startup hooks
-(add-hook 'after-init-hook #'display-battery-mode)
 (add-hook 'after-init-hook #'display-time-mode)
+(add-hook 'after-init-hook #'display-battery-mode)
+(add-hook 'after-init-hook #'pixel-scroll-precision-mode)
 
 (setq fancy-splash-image (expand-file-name "splash/emacs-splash.svg" doom-private-dir))
 

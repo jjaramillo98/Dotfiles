@@ -25,6 +25,8 @@
 (package! spotify)
 (package! lsp-java)
 (package! omnisharp)
+(package! async)
+(package! ghub)
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
                                         ;(package! another-package
