@@ -50,6 +50,9 @@ END
 filetype plugin indent on
 syntax on
 
+" Map the leader key to a spacebar.
+ let mapleader = "\<space>"
+
 set clipboard=unnamed
 set mouse=a
 set cursorline
