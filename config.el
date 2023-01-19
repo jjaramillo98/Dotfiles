@@ -45,6 +45,31 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
+;; Ligatures
+(after! 'ligature
+  :setq
+  (ligature-set-ligatures 't '("www")
+    ;; Enable traditional ligature support in eww-mode, if the
+    ;; `variable-pitch' face supports it
+    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+    ;; Enable all Cascadia Code ligatures in programming modes
+    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://"))
+    ;; Enables ligature checks globally in all buffers. You can also do it
+    ;; per mode with `ligature-mode'.
+    (global-ligature-mode t)))
+
 (setq doom-themes-treemacs-theme "doom-colors")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -126,6 +151,9 @@
 (map! :desc "Show Docker Images"
       :leader "d i" #'docker-images)
 
+(map! :desc "Open Ranger"
+      :leader "d o" #'ranger)
+
 
 ;; Modeline
 (require 'all-the-icons)
@@ -141,7 +169,6 @@
 (setq doom-modeline-lsp t)
 (setq doom-modeline-height 35)
 (setq doom-modeline-bar-width 10)
-(setq doom-modeline-github t)
 
 (custom-set-faces!
    '(mode-line :family "MesloLGL Nerd Font Mono" :height 1.0 :antialias "natural")
@@ -170,15 +197,30 @@
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
-
+;; Language specific configs
 (use-package! "bicep-mode"
               :load-path "/Users/jjaramillo/.bicep")
+
+(after! csharp-mode (setq lsp-csharp-server-path "C:\Program Files\omnisharp-win-x64\Omnisharp.exe"))
+
+;; (sp-with-modes '(csharp-mode)
+;; ;;   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " " "))
+;; ;;            :unless '(sp-point-before-word-p sp-point-before-same-p))
+;; ;;   (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET") ("| " " "))
+;; ;;            :unless '(sp-point-before-word-p sp-point-before-same-p))
+;; ;;   (sp-local-pair "[" nil :post-handlers '(("| " " "))
+;; ;;            :unless '(sp-point-before-word-p sp-point-before-same-p)))
+
+(sp-with-modes 'csharp-mode
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair "[" nil :post-handlers '(("| " " "))))
 
 ;; Emacs Application Framework
 (use-package eaf
   :load-path "/Users/jjaramillo/AppData/Roaming/.emacs.d/site-lisp/emacs-application-framework"
   :custom
-  ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
+                                        ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
   (eaf-browser-continue-where-left-off t)
   (eaf-browser-enable-adblocker t)
   (browse-url-browser-function 'eaf-open-browser)
@@ -204,7 +246,6 @@
 (require 'eaf-system-monitor)
 (require 'eaf-terminal)
 (require 'eaf-video-player)
-
 (require 'eaf-evil)
 
 (define-key key-translation-map (kbd "SPC")
@@ -223,3 +264,9 @@
 (setq eaf-terminal-font-size 13)
 (setq eaf-terminal-font-family "JetBrainsMonoNL Nerd Font Light")
 
+;; Ranger
+(setq ranger-dont-show-binary t)
+(setq ranger-show-hidden t)
+(setq ranger-cleanup-on-disable t)
+
+(setq default-frame-alist '((undecorated . t)))
