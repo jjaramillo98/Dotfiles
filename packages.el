@@ -8,7 +8,8 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
-(package! straight :pin "3eca39d")
+;; (package! straight :pin "3eca39d")
+(package! straight)
 (package! org-present)
 (package! powershell)
 (package! better-shell)
@@ -25,6 +26,8 @@
 (package! spotify)
 (package! lsp-java)
 (package! org-kanban)
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 ;; (package! omnisharp)
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
