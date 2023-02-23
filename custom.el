@@ -6,7 +6,7 @@
  '(org-safe-remote-resources
    '("\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-bigblow\\.setup\\'" "\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-readtheorg\\.setup\\'" "\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-NAME\\.setup\\'"))
  '(package-selected-packages
-   '(spaceline-all-the-icons spaceline omnisharp lsp-java mini-header-line spotify f org-roam-ui simple-httpd dashboard org-bullets org-preview-html smart-mode-line powershell popwin plantuml-mode org2web org-present org-babel-eval-in-repl markdown-soma markdown-preview-mode markdown-preview-eww impatient-mode excorporate cpputils-cmake cmake-ide better-shell))
+   '(dashboard-hackernews weather-metno spaceline-all-the-icons spaceline omnisharp lsp-java mini-header-line spotify f org-roam-ui simple-httpd dashboard org-bullets org-preview-html smart-mode-line powershell popwin plantuml-mode org2web org-present org-babel-eval-in-repl markdown-soma markdown-preview-mode markdown-preview-eww impatient-mode excorporate cpputils-cmake cmake-ide better-shell))
  '(warning-suppress-types '((doom-after-init-hook) (initialization) (defvaralias))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
