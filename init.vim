@@ -32,7 +32,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 " Transparency
-Plug 'tribela/vim-transparent'
+" Plug 'tribela/vim-transparent'
 call plug#end()
 
 if (has("termguicolors"))
