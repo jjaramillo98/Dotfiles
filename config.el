@@ -36,7 +36,7 @@
 
 ;; (add-to-list 'default-frame-alist '(alpha-background . 95))
 
-(setq doom-theme 'doom-palenight
+(setq doom-theme 'doom-nord-light
       doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16 :height 1.0 :antialias "natural")
       doom-variable-pitch-font (font-spec :family "Segoe UI" :size 16 :height 1.2 :antialias "natural")
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 24 :antialias "natural"))
@@ -293,3 +293,13 @@
   (set-popup-rule! (regexp-quote "*ChatGPT*")
     :side 'bottom :size .5 :ttl nil :quit t :modeline nil)
   :bind ("C-c q" . chatgpt-query))
+
+;; Rust DAP Configuration
+(with-eval-after-load 'lsp-rust
+  (require 'dap-cpptools))
+
+(with-eval-after-load 'dap-mode
+  (setq dap-default-terminal-kind "external")
+  (dap-auto-configure-mode +1))
+
+(blink-cursor-mode 1)

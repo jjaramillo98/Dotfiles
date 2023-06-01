@@ -31,6 +31,9 @@
 ;;
 (package! chatgpt
   :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
+
+(package! pulsing-cursor
+    :recipe (:host github :repo "jasonjckn/pulsing-cursor"))
 ;; (package! omnisharp)
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
