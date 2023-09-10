@@ -8,10 +8,11 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
-;; (package! straight :pin "3eca39d")
 (package! straight)
+(package! docker-tramp :disable t)
 (package! org-present)
 (package! powershell)
+(package! protobuf-mode)
 (package! better-shell)
 (package! cmake-ide)
 (package! excorporate)
@@ -23,18 +24,22 @@
 (package! org-roam-ui)
 (package! f)
 (package! websocket)
-(package! spotify)
 (package! lsp-java)
-(package! org-kanban)
+(package! gptel)
+(package! nerd-icons)
+;; v4.0 Uses nerd-icons and they suck on Windows despite
+;; being easier to install compared to all-the-icons
+(package! doom-modeline :pin "63eb9d3")
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
-;;
-(package! chatgpt
-  :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
+(package! spinner)
+;; (package! chatgpt
+;;   :recipe (:host github :repo "joshcho/ChatGPT.el" :files ("dist" "*.el")))
 
 (package! pulsing-cursor
     :recipe (:host github :repo "jasonjckn/pulsing-cursor"))
-;; (package! omnisharp)
+
+(package! org-ai)
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
                                         ;(package! another-package

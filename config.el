@@ -2,7 +2,7 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-
+(setq warning-minimum-level :emergency)
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -32,11 +32,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(set-frame-parameter nil 'internal-border-width 10)
+(set-frame-parameter nil 'internal-border-width 8)
 
 ;; (add-to-list 'default-frame-alist '(alpha-background . 95))
 
-(setq doom-theme 'doom-nord-light
+(setq doom-theme 'doom-nord-aurora
       doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16 :height 1.0 :antialias "natural")
       doom-variable-pitch-font (font-spec :family "Segoe UI" :size 16 :height 1.2 :antialias "natural")
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 24 :antialias "natural"))
@@ -129,17 +129,6 @@
 ;; they are implemented.
 
 ;; key maps
-(map! :desc "Toggle TreeMacs"
-      :leader "t t" #'treemacs)
-
-(map! :desc "TreeMacs Directory"
-      :leader "t d" #'treemacs-select-directory)
-
-(map! :desc "TreeMacs Directory"
-      :leader "r u" #'treemacs-root-up)
-
-(map! :desc "TreeMacs Directory"
-      :leader "r d" #'treemacs-root-down)
 
 (map! :desc "Toggle Modeline"
       :leader "m l" #'doom-modeline-mode)
@@ -147,18 +136,30 @@
 (map! :desc "Start Docker Container"
       :leader "d r" #'docker-image-run)
 
-
 (map! :desc "Show Docker Images"
       :leader "d i" #'docker-images)
 
 (map! :desc "Open Ranger"
       :leader "d o" #'ranger)
 
+(map! :desc "Replace String"
+      :leader "r s" #'replace-string)
+
+(map! :desc "Format Buffer"
+      :leader "f b" #'lsp-format-buffer)
+
+(map! :desc "Comment Region"
+      :leader "c q" #'comment-region)
+
+(map! :desc "Uncomment Region"
+      :leader "c u" #'uncomment-region)
 
 ;; Modeline
 (require 'all-the-icons)
+(require 'nerd-icons)
+
 (setq all-the-icons-scale-factor 1.1)
-(setq doom-modeline-icon (display-graphic-p))
+(setq doom-modeline-icon t)
 (setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-major-mode-color-icon t)
 (setq doom-modeline-buffer-state-icon t)
@@ -185,21 +186,36 @@
 (use-package! websocket
   :after org)
 
+(use-package! org-roam
+  :custom  (org-roam-database-connector 'sqlite-builtin))
+
 (use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+(add-to-list 'exec-path "C:/Users/jjaramillo/go/bin")
+(add-to-list 'exec-path "C:/Program Files/Go/bin")
+(setenv "PATH" (mapconcat #'identity exec-path path-separator))
 
 ;; Language specific configs
 (use-package! "bicep-mode"
               :load-path "/Users/jjaramillo/.bicep")
+
+(add-hook 'bicep-mode-hook
+          'lsp)
+
+(add-hook 'powershell-mode-hook
+          'lsp)
+
+(add-hook 'go-mode-hook #'lsp-deferred)
 
 (after! csharp-mode (setq lsp-csharp-server-path "C:\Program Files\omnisharp-win-x64\Omnisharp.exe"))
 
@@ -220,7 +236,6 @@
 (use-package eaf
   :load-path "/Users/jjaramillo/AppData/Roaming/.emacs.d/site-lisp/emacs-application-framework"
   :custom
-                                        ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
   (eaf-browser-continue-where-left-off t)
   (eaf-browser-enable-adblocker t)
   (browse-url-browser-function 'eaf-open-browser)
@@ -260,8 +275,8 @@
             (_  (kbd "SPC")))
         (kbd "SPC"))))
 
-(setq eaf-webengine-default-zoom 1.6)
-(setq eaf-terminal-font-size 13)
+(setq eaf-webengine-default-zoom 1.3)
+(setq eaf-terminal-font-size 11)
 (setq eaf-terminal-font-family "JetBrainsMonoNL Nerd Font Light")
 
 ;; Ranger
@@ -269,30 +284,32 @@
 (setq ranger-show-hidden t)
 (setq ranger-cleanup-on-disable t)
 
-(setq default-frame-alist '((undecorated . t)))
-
 ;; GitHub Copilot
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
-  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+  :bind (:map copilot-completion-map
+         ("C-TAB" . 'copilot-accept-completion-by-word)
          ("C-<tab>" . 'copilot-accept-completion-by-word)
-         :map copilot-completion-map
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
 
 (map! :desc "Toggle Copilot"
       :leader "t q" #'copilot-mode)
 
-;; ChatGPT
-(use-package! chatgpt
-  :defer t
+(use-package! gptel
   :config
-  (unless (boundp 'python-interpreter)
-    (defvaralias 'python-interpreter 'python-shell-interpreter))
-  (setq chatgpt-repo-path (expand-file-name "straight/repos/ChatGPT.el/" doom-local-dir))
-  (set-popup-rule! (regexp-quote "*ChatGPT*")
-    :side 'bottom :size .5 :ttl nil :quit t :modeline nil)
-  :bind ("C-c q" . chatgpt-query))
+  (setq gptel-api-key "")
+  (setq gptel-use-curl nil)
+  (setq gptel-default-mode 'org-mode)
+  (setq gptel-model "gpt-4"))
+
+(use-package! org-ai
+  :config
+  (setq org-ai-openai-api-token "")
+  (setq markdown-fontify-code-blocks-natively t))
+
+(map! :desc "Start Chat"
+      :leader "s c" #'gptel)
 
 ;; Rust DAP Configuration
 (with-eval-after-load 'lsp-rust
@@ -303,3 +320,4 @@
   (dap-auto-configure-mode +1))
 
 (blink-cursor-mode 1)
+(setq default-frame-alist '((undecorated . t)))
